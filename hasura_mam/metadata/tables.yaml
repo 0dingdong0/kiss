@@ -1,0 +1,22 @@
+- table:
+    schema: public
+    name: gender
+  is_enum: true
+- table:
+    schema: public
+    name: role
+  is_enum: true
+- table:
+    schema: public
+    name: staff
+  array_relationships:
+  - name: allowed_roles
+    using:
+      foreign_key_constraint_on:
+        column: staff
+        table:
+          schema: public
+          name: staff_role
+- table:
+    schema: public
+    name: staff_role

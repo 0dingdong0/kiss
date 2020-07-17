@@ -1,0 +1,16 @@
+# editor
+.vscode/
+*.swp
+
+# docker volume for container postgresql
+db_data/
+
+# python3 virtual env
+.venv/
+
+# python
+__pycache__/
+*.py[cod]
+*$py.class
+.ipynb_checkpoints
+cython_debug/

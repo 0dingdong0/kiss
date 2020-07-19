@@ -1,5 +1,8 @@
 import re
+import jwt
 import hashlib
+
+from datetime import datetime, timedelta
 
 from fastapi import FastAPI, Body, Request
 from pydantic import BaseModel
@@ -8,12 +11,19 @@ from aiographql.client import GraphQLClient
 from aiographql.client.request import GraphQLRequest
 from aiographql.client.response import GraphQLResponse
 
+
+SECRET = 'sSRiJYUp1Z_JqN6xqU7y0ohOC42H_D0X1AYjvUktO7c'
+
 client = GraphQLClient(
     endpoint = "http://192.168.1.182:8080/v1/graphql",
-    headers = {}
+    headers = {"X-Hasura-Admin-Secret": "tbqIwPZ_7rw"}
 )
 
 app = FastAPI()
+
+@app.middleware("http")
+async def process_input_args(request: Request, call_next):
+    return await call_next(request)
 
 class Credentials(BaseModel):
     loginId : str
@@ -27,6 +37,8 @@ class UserInfo(BaseModel):
 async def login(req = Body(...)) -> UserInfo:
 
     credentials = req['input']['credentials']
+    
+    print('***************************************')
     print(Credentials.parse_obj(credentials).json())
     print(credentials['password'], credentials['loginId'])
 
@@ -58,10 +70,10 @@ async def login(req = Body(...)) -> UserInfo:
                     first_name
                     default_role
                     allowed_roles {
-                    role
-                    created_by
-                    created_at
-                    staff
+                        role
+                        created_by
+                        created_at
+                        staff
                     }
                 }
             }
@@ -77,9 +89,33 @@ async def login(req = Body(...)) -> UserInfo:
     if response.errors:
         raise Exception(response.errors)
 
-    print('------------------------', response.data)
+    if len(response.data['staff']) != 1:
+        raise Exception('Authentication failed! Please try again ...')
 
+    user = response.data['staff'][0]
+    print('------------------------', user)
+
+    now = datetime.now()
+    exp = now + timedelta(hours=1)
+
+    payload = {
+        "sub": "authentication",
+        "name": user['last_name']+' '+user['first_name'],
+        "admin": "true",
+        "iss": "http://192.168.1.182:8000/login/",
+        "iat": int(now.timestamp()),
+        "exp": int(exp.timestamp()),
+        "https://hasura.io/jwt/claims": {
+            "x-hasura-allowed-roles": [ role['role'] for role in user['allowed_roles'] ],
+            "x-hasura-default-role": user['default_role'],
+            "x-hasura-user-id": user['id'],
+        }
+    }
+
+    token = jwt.encode(payload, SECRET, algorithm='HS256')
+
+    print('===========================', payload)
     return {
-        "userId": 123,
-        "accessToken": 'lskdflskjfhknckwheoiflksf'
+        "userId": user['id'],
+        "accessToken": token
     }

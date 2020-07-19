@@ -6,6 +6,6 @@ echo "(1/2)==>>: Nuke local metadata ..."
 sudo rm -rf ./metadata/*
 
 echo "(2/2)==>>: Pull the metadata from hasura server ..."
-hasura metadata export --endpoint=http://192.168.1.182:8080
+hasura metadata export --endpoint=http://192.168.1.182:8080 --admin-secret tbqIwPZ_7rw
 
 cd ..

@@ -5,6 +5,7 @@ INSERT INTO public.gender (value, comment) VALUES
 
 INSERT INTO public.role (value, comment) VALUES
     ('Administrator', 'Administrator'),
+    ('Anonymous', 'Public Access'),
     ('Service', 'Service Access'),
     ('General_Manager', 'General Manager'),
     ('Sales_Manager', 'Sales Manager'),

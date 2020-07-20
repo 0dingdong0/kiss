@@ -38,9 +38,9 @@ async def login(req = Body(...)) -> UserInfo:
 
     credentials = req['input']['credentials']
     
-    print('***************************************')
-    print(Credentials.parse_obj(credentials).json())
-    print(credentials['password'], credentials['loginId'])
+    # print('***************************************')
+    # print(Credentials.parse_obj(credentials).json())
+    # print(credentials['password'], credentials['loginId'])
 
     loginId = credentials['loginId']
     password = credentials['password']
@@ -93,7 +93,7 @@ async def login(req = Body(...)) -> UserInfo:
         raise Exception('Authentication failed! Please try again ...')
 
     user = response.data['staff'][0]
-    print('------------------------', user)
+    # print('------------------------', user)
 
     now = datetime.now()
     exp = now + timedelta(hours=1)

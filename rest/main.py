@@ -117,7 +117,7 @@ async def login(req = Body(...)) -> UserInfo:
 
     token = jwt.encode(payload, SECRET, algorithm='HS256')
 
-    print('===========================', payload)
+    # print('===========================', payload)
     return {
         "userId": user['id'],
         "accessToken": token

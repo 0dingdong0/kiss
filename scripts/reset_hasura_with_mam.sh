@@ -59,8 +59,8 @@ echo "==>>: apply hasura migrate & metadata ..."
 
 cd ./hasura_mam
 
-hasura migrate apply --endpoint "http://192.168.1.182:8080"
+hasura migrate apply --endpoint "http://192.168.1.182:8080" --admin-secret tbqIwPZ_7rw
 sleep 2
-sudo hasura metadata apply --endpoint "http://192.168.1.182:8080"
+sudo hasura metadata apply --endpoint "http://192.168.1.182:8080" --admin-secret tbqIwPZ_7rw
 
 cd ..

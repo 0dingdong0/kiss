@@ -13,7 +13,8 @@ input LoginInput {
 }
 
 type UserInfo {
-  userId : String!
-  accessToken : String!
+  errors : [String!]
+  userId : String
+  accessToken : String
 }
 

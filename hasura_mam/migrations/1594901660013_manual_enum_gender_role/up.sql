@@ -4,9 +4,8 @@ INSERT INTO public.gender (value, comment) VALUES
     ('U', 'Unknown');
 
 INSERT INTO public.role (value, comment) VALUES
-    ('Administrator', 'Administrator'),
+    ('admin', 'Administrator'),
     ('Anonymous', 'Public Access'),
-    ('Service', 'Service Access'),
     ('General_Manager', 'General Manager'),
     ('Sales_Manager', 'Sales Manager'),
     ('Salesman', 'Salesman'),

@@ -56,7 +56,7 @@ async def login(req = Body(...)) -> UserInfo:
                 staff(where: {
                     _and: [
                         {_or: [
-                            {email: {_eq: $loginId}},
+                            {email: {_ilike: $loginId}},
                             {mobile: {_eq: $loginId}}
                         ]}, 
                         {password: {_eq: $password}}
@@ -90,7 +90,10 @@ async def login(req = Body(...)) -> UserInfo:
         raise Exception(response.errors)
 
     if len(response.data['staff']) != 1:
-        raise Exception('Authentication failed! Please try again ...')
+        errors = ['Invalid login ID or PASSWORD! Please try again ...']
+        print(errors)
+        return { "errors": errors}
+
 
     user = response.data['staff'][0]
     # print('------------------------', user)
@@ -114,7 +117,7 @@ async def login(req = Body(...)) -> UserInfo:
 
     token = jwt.encode(payload, SECRET, algorithm='HS256')
 
-    print('===========================', payload)
+    # print('===========================', payload)
     return {
         "userId": user['id'],
         "accessToken": token

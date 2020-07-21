@@ -71,9 +71,6 @@ async def login(req = Body(...)) -> UserInfo:
                     default_role
                     allowed_roles {
                         role
-                        created_by
-                        created_at
-                        staff
                     }
                 }
             }
@@ -96,7 +93,7 @@ async def login(req = Body(...)) -> UserInfo:
 
 
     user = response.data['staff'][0]
-    # print('------------------------', user)
+    print('------------------------', user)
 
     now = datetime.now()
     exp = now + timedelta(hours=1)

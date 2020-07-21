@@ -38,9 +38,7 @@ CREATE TABLE public.role (
 );
 CREATE TABLE public.staff_role (
     staff integer NOT NULL,
-    role text NOT NULL,
-    created_by integer NOT NULL,
-    created_at timestamp with time zone DEFAULT now()
+    role text NOT NULL
 );
 ALTER TABLE ONLY public.staff ALTER COLUMN id SET DEFAULT nextval('public."User_id_seq"'::regclass);
 ALTER TABLE ONLY public.staff
@@ -60,8 +58,6 @@ ALTER TABLE ONLY public.staff
     ADD CONSTRAINT staff_default_role_fkey FOREIGN KEY (default_role) REFERENCES public.role(value) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE ONLY public.staff
     ADD CONSTRAINT staff_gender_fkey FOREIGN KEY (gender) REFERENCES public.gender(value) ON UPDATE RESTRICT ON DELETE RESTRICT;
-ALTER TABLE ONLY public.staff_role
-    ADD CONSTRAINT staff_role_created_by_fkey FOREIGN KEY (created_by) REFERENCES public.staff(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE ONLY public.staff_role
     ADD CONSTRAINT staff_role_role_fkey FOREIGN KEY (role) REFERENCES public.role(value) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE ONLY public.staff_role

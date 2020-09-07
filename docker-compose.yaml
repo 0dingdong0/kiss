@@ -23,7 +23,8 @@ services:
   graphql-engine:
     # image: hasura/graphql-engine:v1.2.2
     # image: hasura/graphql-engine:v1.3.0-beta.4
-    image: hasura/graphql-engine:v1.3.0
+    # image: hasura/graphql-engine:v1.3.0
+    image: hasura/graphql-engine:v1.3.1
     ports:
     - "8080:8080"
     depends_on:
@@ -32,6 +33,8 @@ services:
     environment:
       HASURA_GRAPHQL_DATABASE_URL: postgres://hasura:hasura@postgres:5432/hasura
       HASURA_GRAPHQL_ENABLE_CONSOLE: "false" # set to "false" to disable console
+      ## enable debugging mode. It's recommended to disable this in production.
+      HASURA_GRAPHQL_DEV_MODE: "true"
       ## uncomment next line to set an admin secret
       HASURA_GRAPHQL_ADMIN_SECRET: tbqIwPZ_7rw
       HASURA_GRAPHQL_JWT_SECRET: '{"type":"HS256", "key": "sSRiJYUp1Z_JqN6xqU7y0ohOC42H_D0X1AYjvUktO7c"}'
